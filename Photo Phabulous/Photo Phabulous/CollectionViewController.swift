@@ -31,24 +31,15 @@ class CollectionViewController: UICollectionViewController {
         alert.addAction(UIAlertAction(title: "Library", style: .default, handler: { action in
                 self.imagePickerController.allowsEditing = true
                 self.imagePickerController.delegate = self
-            self.present(self.imagePickerController, animated: true, completion: {self.fetchPhotos()
-                DispatchQueue.main.async {
-                    self.collectionView!.reloadData()
-                    IJProgressView.shared.hideProgressView()
-                }
-            })
+            self.present(self.imagePickerController, animated: true, completion: nil)
         }))
+        
         alert.addAction(UIAlertAction(title: "Camera", style: .cancel, handler: { action in
                 if UIImagePickerController.isSourceTypeAvailable(.camera) {
                     self.imagePickerController.sourceType = .camera;
                     self.imagePickerController.allowsEditing = false
-                    self.present(self.imagePickerController, animated: true, completion: {self.fetchPhotos()
-                        DispatchQueue.main.async {
-                            self.collectionView!.reloadData()
-                            IJProgressView.shared.hideProgressView()
-                        }
-                    })
-                }
+                    self.present(self.imagePickerController, animated: true, completion: nil)
+            }
         }))
         
         self.present(alert, animated: true)
@@ -137,6 +128,10 @@ class CollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         
+        for subview in cell.contentView.subviews {
+            subview.removeFromSuperview()
+        }
+        
         if let dataFeed = images {
             if let imageData = dataFeed.results[indexPath.row] {
                 do{
@@ -217,13 +212,24 @@ extension CollectionViewController: UIImagePickerControllerDelegate, UINavigatio
             NetworkManager.sharedInstance.uploadRequest(user: "alexichryss", image: image, caption: NSUserName() as NSString)
         }
         
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: {
+            self.fetchPhotos()
+            DispatchQueue.main.async {
+                self.collectionView!.reloadData()
+                IJProgressView.shared.hideProgressView()
+            }
+        })
     }
     
     func imagePickerControllerDidFinishPicking(_ picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        fetchPhotos()
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: {
+            self.fetchPhotos()
+            DispatchQueue.main.async {
+                self.collectionView!.reloadData()
+                IJProgressView.shared.hideProgressView()
+            }
+        })
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
