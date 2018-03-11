@@ -1,0 +1,41 @@
+## Requirements
+
+#### Collection View
+1/1        Images are displayed in a `UICollectionView`
+0.5/0.5    UIBarButton in the navigation bar presents a dialog allowing the user to choose between taking a new photo or selecting one from photo library
+1/1        User can add a new photo with `UIImagePickerController`
+
+#### Image Detail View
+1/1        Tapping on image takes user to full-screen detail view
+0.5/0.5    User can share image to Twitter through `SLComposeViewController`
+
+#### Networking
+0.5/0.5    Singleton class named `SharedNetworking` handles API requests
+0.5/0.5    Custom enum holds the API URLs
+0.5/0.5    `isNetworkActivityIndicatorVisible` is used to indicate when networking activities are taking place
+0.5/0.5    User is informed when the network is not reachable
+
+#### Caching & Resizing
+0.5/0.5    Images are resized before being sent to the server
+1/1        Image JSON is stored in a file in the Documents Directory
+1/1        Images are stored in NSCache
+
+#### Error Handling
+1/1        Custom function uses the do-try-catch pattern
+0.5/0.5    Custom `Error` used within the function
+
+#### 11th Point
+1/1        Navigation bar disappears and reappears on `ImageDetailViewController` when image is tapped
+
+#### Additional Requirements
+- [x] Universal application
+- [x] Custom app icon
+- [x] Attributions in project and readme
+- [x] No errors or warnings
+
+## Comments
+
+wonderful! great work on this one :-)
+
+## Grade
+11/10
